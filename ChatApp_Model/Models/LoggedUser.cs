@@ -1,13 +1,15 @@
-﻿using ChatApp_Model.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
-
-namespace ChatApp_Model
+namespace ChatApp_Model.Models
 {
-    public class User
+    public class LoggedUser
     {
         [Key]
         public int UserId { get; set; }
@@ -24,11 +26,8 @@ namespace ChatApp_Model
         public string UserName { get; set; }
         [DisplayName("Şifre")]
         public string Password { get; set; }
-        
-        //public List<User> FriendList { get; set; }
-        //public ICollection<Friendship> Friendship { get; set; }
-
-
+        //public User SelectedChatFriend { get; set; }
+       
 
     }
 }

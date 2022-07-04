@@ -1,0 +1,39 @@
+﻿@model List<ChatApp_Model.User>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<head>
+    @Html.ValidationSummary()
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                @foreach (var item in Model)
+                {
+                    <table>
+                        <tr>
+                            <th>
+                                @item.UserName
+                            </th>
+                            <th>
+                                @item.FullName
+                            </th>
+
+                        </tr>
+                    </table>
+                }
+            </div>
+            <div class="col-sm">
+               
+            </div>
+            
+        </div>
+    </div>
+</body>
+
+
+
+

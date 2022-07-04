@@ -1,5 +1,6 @@
 ﻿using ChatApp_DataAccess;
 using ChatApp_Model;
+using ChatApp_Model.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,22 +24,23 @@ namespace ChatApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            User usermodel = new();
-            return View(usermodel);
+            LoggedUser loggedUser = new();
+            return View(loggedUser);
         }
         [HttpPost]
-        public IActionResult Index(User userModel)
+        public IActionResult Index(LoggedUser loggedUser)
         {
 
-            User matchedUser = _db.Users.FirstOrDefault(i => i.UserName == userModel.UserName);
-            if (!_db.Users.Select(i=>i.UserName).Contains(userModel.UserName))
+            User matchedUser = _db.Users.FirstOrDefault(i => i.UserName == loggedUser.UserName);
+            if (!_db.Users.Select(i=>i.UserName).Contains(loggedUser.UserName))
             {
                 ModelState.AddModelError("", "Kullanıcı adı bulunamadı!");
             }
             else
             {
-                if (matchedUser.Password == userModel.Password)
+                if (matchedUser.Password == loggedUser.Password)
                 {
+                    
                     return RedirectToAction("Index", "Home");
                 }
                 else
