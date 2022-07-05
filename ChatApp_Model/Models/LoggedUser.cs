@@ -22,11 +22,10 @@ namespace ChatApp_Model.Models
                 return ($"{FirstName} {LastName}");
             }
         }
-        [DisplayName("Kullanıcı Adı")]
+        //[DisplayName("Kullanıcı Adı")]
         public string UserName { get; set; }
-        [DisplayName("Şifre")]
+        //[DisplayName("Şifre")]
         public string Password { get; set; }
-        //public User SelectedChatFriend { get; set; }
        
 
     }

@@ -37,9 +37,9 @@ namespace ChatApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [HttpPost]
-        public JsonResult GetFriendList()
+        public JsonResult GetFriendList([FromBody] UserData data)
         {
-            List<User> users = _db.Users.ToList();
+            List<User> users = _db.Users.Where(i=>i.UserName!=data.Username).ToList();
             List<SelectListItem> userlist = new List<SelectListItem>();
             foreach (var item in users)
             {

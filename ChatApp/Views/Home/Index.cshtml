@@ -13,7 +13,7 @@
     <nav class="nav navbar-default">
         <div class="navbar-brand">
 
-            <span style="float:right;">username</span>
+            <span style="float:right;">Welcome @Model.FullName</span>
 
 
         </div>
@@ -23,15 +23,13 @@
     @using (Html.BeginForm())
     {
         <div class="container">
-            <div class="row">
-                <select id="ddlfriend" name="ddlfriend" class="form-control">
-                </select>
-
-            </div>
+            
             <div class="row">
                 <div class="col-md-4">
-                    <div class="form-group">
 
+                    <div class="form-group">
+                        <select id="ddlfriend" name="ddlfriend" class="form-control">
+                        </select>
                     </div>
                     <div class="form-group">
                         <input type="text" name="txtmsg" id="txtmsg" class="form-control" />
@@ -67,11 +65,13 @@
 
             function getmyfriends()
             {
+                var userData = {};
+                userData.UserName = "@Model.UserName";
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetFriendList", "Home")",
                     contentType: "application/json; charset=utf-8",
-                    data: '{}',
+                    data: JSON.stringify(userData),
                     dataType: "json",
                     success: function (r) {
 
