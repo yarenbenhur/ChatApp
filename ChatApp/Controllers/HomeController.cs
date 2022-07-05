@@ -10,11 +10,13 @@ using RabbitMQ.Client;
 using ChatApp_Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ChatApp_DataAccess;
+using ChatApp_Model.Models;
 
 namespace ChatApp.Controllers
 {
     public class HomeController : Controller
     {
+       
         private readonly ApplicationDbContext _db;
 
         public HomeController(ApplicationDbContext db)
@@ -22,19 +24,13 @@ namespace ChatApp.Controllers
             _db = db;
 
         }
-        public IActionResult Index()
+
+        public IActionResult Index(LoggedUser loggedUser)
         {
-            List<User> userList = _db.Users.ToList();
-           
-            return View();
+            return View(loggedUser);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        
-
+       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -57,21 +53,22 @@ namespace ChatApp.Controllers
             return Json(userlist);
         }
         [HttpPost]
-        public JsonResult SendMsg(string message, string friend)
+        public JsonResult SendMsg([FromBody]Data data)
         {
+
             RabbitMQController obj = new ();
             IConnection con = obj.GetConnecion();
-            bool flag = obj.Send(con, message,friend);
+            bool flag = obj.Send(con, data.Message,data.Friend);
             return Json(null);
         }
         [HttpPost]
-        public JsonResult ReceiveMsg()
+        public JsonResult ReceiveMsg([FromBody] UserData data)
         {
             try
             {
                 RabbitMQController obj = new RabbitMQController();
                 IConnection con = obj.GetConnecion();
-                string userqueue = "ceydatuncok";
+                string userqueue = data.Username;
                 string message = obj.Receive(con, userqueue);
                 return Json(message);
             }
@@ -80,6 +77,9 @@ namespace ChatApp.Controllers
 
                 return null;
             }
+
+
+
 
 
         }

@@ -32,14 +32,15 @@ namespace ChatApp.Controllers
                 IModel channel = conn.CreateModel();
                 channel.ExchangeDeclare("ex.direct", ExchangeType.Direct);
                 channel.QueueDeclare(friendqueue, true, false, false, null);
-                channel.QueueBind(friendqueue, "ex.direct", friendqueue,null);
+                channel.QueueBind(friendqueue, "ex.direct", friendqueue, null);
                 channel.BasicPublish("ex.direct", friendqueue, null, Encoding.UTF8.GetBytes(message));
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
             return true;
+            
 
 
 

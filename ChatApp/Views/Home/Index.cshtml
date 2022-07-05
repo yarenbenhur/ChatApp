@@ -12,7 +12,10 @@
 <body>
     <nav class="nav navbar-default">
         <div class="navbar-brand">
+
             <span style="float:right;">username</span>
+
+
         </div>
     </nav>
     <br />
@@ -57,10 +60,11 @@
 </body>
 <script type="text/javascript">
         $(document).ready(function () {
+            getmyfriends();
             $("#btnsend").click(function () {
                 send();
             });
-            getmyfriends();
+
             function getmyfriends()
             {
                 $.ajax({
@@ -72,7 +76,7 @@
                     success: function (r) {
 
                         var ddlfrined = $("#ddlfriend");
-                        // ddlfrined.empty().append('<option selected="selected" value="0">select</option>');
+                         ddlfrined.empty().append('<option selected="selected" value="0">select</option>');
                         for (var i = 0; i < r.length; i++) {
 
                             ddlfrined.append($("<option></option>").val(r[i].value).html(r[i].text));
@@ -83,17 +87,24 @@
                     }
                 });
             }
-             setInterval(function () {
-                $.ajax({
+            setInterval(function () {
+                var userData = {};
+                userData.UserName = "@Model.UserName";
+                    $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    data: '{}',
+                    data: JSON.stringify(userData),
                     url: "@Url.Action("ReceiveMsg","Home")",
                     dataType: "json",
                     success: function (response) {
-                        
-                        var data = $("#divmsg").html();
-                        $("#divmsg").html(data + "<br>Friend:" + response);
+                        if (response != null) {
+                            var data = $("#divmsg").html();
+                            $("#divmsg").html(data + "<br>Friend:" + response);
+                        }
+                        else {
+
+                        }
+
 
                     },
                     error: function (response) {
@@ -102,23 +113,22 @@
                 });
             }, 5000);
             function send() {
-                var Message = $("#txtmsg").val();
-                var Friend = $("#ddlfriend").val();
 
-                var data = $("#divmsg").html();
-                $("#divmsg").html(data + "<br>Me:" + Message);
+                var dataToPost = {};
+                dataToPost.Message = $("#txtmsg").val();
+                dataToPost.Friend = $("#ddlfriend").val();
                 $("#txtmsg").val("");
 
                 $.ajax({
+                     url: "@Url.Action("SendMsg","Home")",
                     type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: { message: Message, friend: Friend },
-                    url: "@Url.Action("SendMsg","Home")",
                     dataType: "json",
+                    data: JSON.stringify(dataToPost),
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
                     success: function (response) {
-
                         var data = $("#divmsg").html();
-                        $("#divmsg").html(data + "<br>Me :" + Message);
+                        $("#divmsg").html(data + "<br>Me :" + dataToPost.Message);
 
                     },
                     error: function (response) {

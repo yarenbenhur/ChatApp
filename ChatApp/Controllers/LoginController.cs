@@ -40,8 +40,11 @@ namespace ChatApp.Controllers
             {
                 if (matchedUser.Password == loggedUser.Password)
                 {
+                    loggedUser.FirstName = matchedUser.FirstName;
+                    loggedUser.LastName = matchedUser.LastName;
+                    loggedUser.UserId = matchedUser.UserId;
                     
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home",loggedUser);
                 }
                 else
                 {
