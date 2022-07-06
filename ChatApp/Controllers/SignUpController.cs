@@ -28,25 +28,34 @@ namespace ChatApp.Controllers
         {
             try
             {
-                _db.Users.Add(new User
+                if (_db.Users.Select(i => i.UserName).Contains(newUser.UserName))
                 {
-                    UserName = newUser.UserName,
-                    FirstName = newUser.FirstName,
-                    LastName = newUser.LastName,
-                    Password = newUser.Password
-                });
-                _db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                    ModelState.AddModelError("takenUsername", "This username is already used.");
+                }
+
+                else
+                {
+                    if (newUser.UserName != null)
+                    {
+                        _db.Users.Add(new User
+                        {
+                            UserName = newUser.UserName,
+                            FirstName = newUser.FirstName,
+                            LastName = newUser.LastName,
+                            Password = newUser.Password
+                        });
+                        _db.SaveChanges();
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
             }
-            catch(Exception)
+            catch (Exception)
             {
-                ModelState.AddModelError("", "Error is occured while creating new account!");
+                ModelState.AddModelError("Exception", "Error is occured while creating new account!");
             }
-           
-
-
             return View();
         }
-
     }
+
 }

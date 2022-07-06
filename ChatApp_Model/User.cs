@@ -11,8 +11,16 @@ namespace ChatApp_Model
     {
         [Key]
         public int UserId { get; set; }
+
+        [CustomValidation(typeof(User), "ValidateUserProp")]
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+
+        
+        [CustomValidation(typeof(User), "ValidateUserProp")]
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
+
         public string FullName
         {
             get
@@ -20,15 +28,32 @@ namespace ChatApp_Model
                 return ($"{FirstName} {LastName}");
             }
         }
-        [DisplayName("Kullanıcı Adı")]
+
+        [CustomValidation(typeof(User), "ValidateUserProp")]
+        [DisplayName("Username")]
         public string UserName { get; set; }
-        [DisplayName("Şifre")]
+
+
+        [CustomValidation(typeof(User), "ValidateUserProp")]
+        [DataType(DataType.Password)]
+        [DisplayName("Password")]
         public string Password { get; set; }
-        
+
         //public List<User> FriendList { get; set; }
         //public ICollection<Friendship> Friendship { get; set; }
 
+        public static ValidationResult ValidateUserProp(string prop, ValidationContext context)
+        {
+            ValidationResult result = null;
 
+            if (prop== null)
+            {
+                result = new ValidationResult($"{context.DisplayName} is required.");
+            }
+           
+
+            return result;
+        }
 
     }
 }

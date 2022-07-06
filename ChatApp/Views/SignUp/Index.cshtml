@@ -29,24 +29,31 @@
                                 Sign Up
                             </span>
                             <div class="wrap-input100 validate-input m-b-16 dis-flex" data-validate="Please enter username">
-                                <input asp-for="FirstName" class="input100 m-r-10" type="text" placeholder="First Name">
-                               
-                                <input asp-for="LastName" class="input100" type="text" placeholder="Last Name">
+                                <input asp-for="FirstName" class="input100 m-r-10" type="text" placeholder="@Html.DisplayNameFor(i=>i.FirstName)">
+                                @Html.ValidationMessageFor(i => i.FirstName)
+                                <input asp-for="LastName" class="input100" type="text" placeholder="@Html.DisplayNameFor(i=>i.LastName)">
 
                             </div>
-                      
+
                             <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
-                                <input asp-for="UserName" class="input100" type="text" placeholder="Username">
+                                <input asp-for="UserName" class="input100" type="text" placeholder="@Html.DisplayNameFor(i=>i.UserName)">
+                                @Html.ValidationMessageFor(i => i.UserName)
+
                                 <span class="focus-input100"></span>
                             </div>
 
                             <div class="wrap-input100 validate-input" data-validate="Please enter password">
-                                <input asp-for="Password" class="input100" type="password" placeholder="Password">
+                                <input asp-for="Password" class="input100" type="password" placeholder="@Html.DisplayNameFor(i=>i.Password)">
+                                @Html.ValidationMessageFor(i => i.Password)
+
                                 <span class="focus-input100"></span>
                             </div>
-
+                            <div>
+                                @Html.ValidationMessage("takenUsername")
+                                @Html.ValidationMessage("Exception")
+                            </div>
+                            
                             <div class="container-login100-form-btn">
-                                @Html.ValidationSummary()
 
                                 <button type="submit" class="login100-form-btn m-t-50">
                                     Sign up
